@@ -1,0 +1,227 @@
+-- phpMyAdmin SQL Dump
+-- version 4.2.11
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Mar 10, 2015 at 08:18 PM
+-- Server version: 5.6.21
+-- PHP Version: 5.6.3
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `grhedu`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_areaCurso`
+--
+
+CREATE TABLE IF NOT EXISTS `tb_areaCurso` (
+`id_areaCurso` int(11) NOT NULL,
+  `descricao` varchar(50) NOT NULL,
+  `sub_area` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_areainterna`
+--
+
+CREATE TABLE IF NOT EXISTS `tb_areainterna` (
+  `id_areaInterna` int(11) NOT NULL,
+  `descricao` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_autenticacao`
+--
+
+CREATE TABLE IF NOT EXISTS `tb_autenticacao` (
+  `id_autenticacao` int(11) NOT NULL,
+  `siape` int(11) NOT NULL,
+  `data_acesso` date NOT NULL,
+  `hora_de_acesso` time NOT NULL,
+  `senha` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_curso`
+--
+
+CREATE TABLE IF NOT EXISTS `tb_curso` (
+  `id_Curso` int(11) NOT NULL,
+  `nome` varchar(50) NOT NULL,
+  `duracao` varchar(30) NOT NULL,
+  `carga_horaria` int(11) NOT NULL,
+  `id_Area` int(11) NOT NULL,
+  `turno` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_disciplina`
+--
+
+CREATE TABLE IF NOT EXISTS `tb_disciplina` (
+`id_Disciplina` int(11) NOT NULL,
+  `nome` varchar(70) NOT NULL,
+  `carga_Horaria` int(11) NOT NULL,
+  `ementa` varchar(500) NOT NULL,
+  `semestre` int(11) NOT NULL,
+  `id_Curso` int(11) NOT NULL,
+  `id_Area` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_professor`
+--
+
+CREATE TABLE IF NOT EXISTS `tb_professor` (
+`id_professor` int(11) NOT NULL,
+  `siape` int(11) NOT NULL,
+  `nome` varchar(45) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `regime` varchar(45) NOT NULL,
+  `data_ingresso` date NOT NULL,
+  `id_area` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_turma`
+--
+
+CREATE TABLE IF NOT EXISTS `tb_turma` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(45) NOT NULL,
+  `descricao` varchar(45) NOT NULL,
+  `id_disiciplina` int(11) NOT NULL,
+  `id_professor` int(11) NOT NULL,
+  `id_curso` int(11) NOT NULL,
+  `numero_vagas` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `tb_areaCurso`
+--
+ALTER TABLE `tb_areaCurso`
+ ADD PRIMARY KEY (`id_areaCurso`);
+
+--
+-- Indexes for table `tb_areainterna`
+--
+ALTER TABLE `tb_areainterna`
+ ADD PRIMARY KEY (`id_areaInterna`);
+
+--
+-- Indexes for table `tb_autenticacao`
+--
+ALTER TABLE `tb_autenticacao`
+ ADD PRIMARY KEY (`id_autenticacao`), ADD KEY `fk_autenticacao_professor_idx` (`siape`);
+
+--
+-- Indexes for table `tb_curso`
+--
+ALTER TABLE `tb_curso`
+ ADD PRIMARY KEY (`id_Curso`), ADD KEY `fk_subAreaCurso_Curso_idx` (`id_Area`);
+
+--
+-- Indexes for table `tb_disciplina`
+--
+ALTER TABLE `tb_disciplina`
+ ADD PRIMARY KEY (`id_Disciplina`), ADD KEY `fk_curso_disciplina_idx` (`id_Curso`), ADD KEY `fk_disciplina_area_idx` (`id_Area`);
+
+--
+-- Indexes for table `tb_professor`
+--
+ALTER TABLE `tb_professor`
+ ADD PRIMARY KEY (`id_professor`,`siape`), ADD KEY `fk_area_professor_idx` (`id_area`), ADD KEY `siape` (`siape`);
+
+--
+-- Indexes for table `tb_turma`
+--
+ALTER TABLE `tb_turma`
+ ADD PRIMARY KEY (`id`), ADD KEY `fk_disciplina_turma_idx` (`id_disiciplina`), ADD KEY `fk_turma_professor_idx` (`id_professor`), ADD KEY `fk_turma_curso_idx` (`id_curso`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `tb_areaCurso`
+--
+ALTER TABLE `tb_areaCurso`
+MODIFY `id_areaCurso` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `tb_disciplina`
+--
+ALTER TABLE `tb_disciplina`
+MODIFY `id_Disciplina` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `tb_professor`
+--
+ALTER TABLE `tb_professor`
+MODIFY `id_professor` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `tb_autenticacao`
+--
+ALTER TABLE `tb_autenticacao`
+ADD CONSTRAINT `fk_autenticacao_professor` FOREIGN KEY (`siape`) REFERENCES `tb_professor` (`siape`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `tb_curso`
+--
+ALTER TABLE `tb_curso`
+ADD CONSTRAINT `fk_subAreaCurso_Curso` FOREIGN KEY (`id_Area`) REFERENCES `tb_areaCurso` (`id_areaCurso`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `tb_disciplina`
+--
+ALTER TABLE `tb_disciplina`
+ADD CONSTRAINT `fk_curso_disciplina` FOREIGN KEY (`id_Curso`) REFERENCES `tb_curso` (`id_Curso`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `fk_disciplina_area` FOREIGN KEY (`id_Area`) REFERENCES `tb_areainterna` (`id_areaInterna`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `tb_professor`
+--
+ALTER TABLE `tb_professor`
+ADD CONSTRAINT `fk_area_professor` FOREIGN KEY (`id_area`) REFERENCES `tb_areainterna` (`id_areaInterna`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `tb_turma`
+--
+ALTER TABLE `tb_turma`
+ADD CONSTRAINT `fk_turma_curso` FOREIGN KEY (`id_curso`) REFERENCES `tb_curso` (`id_Curso`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `fk_turma_disciplina` FOREIGN KEY (`id_disiciplina`) REFERENCES `tb_disciplina` (`id_Disciplina`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `fk_turma_professor` FOREIGN KEY (`id_professor`) REFERENCES `tb_professor` (`siape`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
