@@ -1,0 +1,31 @@
+<?php
+    //verifica se existe conexão com bd, caso não tenta criar uma nova
+    $conn = mysql_connect("localhost","root","") //porta, usuário, senha
+    or die("Erro na conexão com banco de dados"); //caso não consiga conectar mostra a mensagem de erro mostrada na conexão
+     
+    $db = mysql_select_db("grhedu"); //seleciona o banco de dados
+     
+    //Abaixo atribuímos os valores provenientes do formulário pelo método POST
+  
+    $id_Curso = $_POST["id_Curso"]; 
+    $nome = $_POST["nome"]; 
+    $duracao = $_POST["duracao"];
+    $carga_horaria = $_POST["carga_horaria"];
+    $turno = $_POST["turno"];
+    $id_Area= $_POST["id_Area"]; 
+ 
+     
+    $string_sql = "INSERT INTO tb_curso (id_Curso,nome,duracao,carga_horaria, turno, id_Area) VALUES ('$id_Curso' ,'$nome','$duracao', '$carga_horaria', '$turno', '$id_Area')"; //String com consulta SQL da inserção
+     
+
+    mysql_query($string_sql,$conn); //Realiza a consulta
+     
+    if(mysql_affected_rows() == 1){ //verifica se foi afetada alguma linha, nesse caso inserida alguma linha
+        echo "<p>Cadastro feito com sucesso</p>";
+        echo '<a href="formularioCurso.html">Voltar para formulário de cadastro</a>'; //Apenas um link para retornar para o formulário de cadastro
+    } else {
+        echo "Erro, não foi possível inserir no banco de dados";
+    }
+     
+    mysql_close($conn); //fecha conexão com banco de dados 
+?>
