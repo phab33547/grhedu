@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Formulario Curso</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+  <body>
+
+   <div class = "page-header">
+ 		<h1>Formulario <small>Curso</small></h1>
+ 	</div>
+
+  <form action="insere.curso.php" method="POST">
+
+	<table cellpadding="10px">
+    <tr>
+      <td> <font size = "5"><b>ID Curso:</b></font size></td>
+        <td><input name="id_Curso" type="text" placeholder="Digite o ID do Curso"></td>
+     </tr>
+    <tr>
+      <td> <font size = "5"><b>Nome:</b></font size></td>
+        <td><input name="nome" type="text" placeholder="Digite o nome do Curso"></td>
+     </tr>
+     <tr>
+    <td><font size = "5"><b>Duração:</b></font size> </td>
+    <td><select name="duracao"> 
+      <option value=1>1 Semestre</option>
+      <option value=2>2 Semestre</option>
+      <option value=3>3 Semestre</option>
+      <option value=4>4 Semestre</option>
+      <option value=5>5 Semestre</option>
+      <option value=6>6 Semestre</option>
+      <option value=7>7 Semestre</option>
+    </select></td>
+     </tr>
+     <tr>
+      <td><font size = "5"><b>Turno:</b></font size></td>
+      <td><select name="turno"> 
+        <option>Matutino</option>
+        <option>Vespertino</option>
+        <option>Noturno</option>
+    </select></td>
+     </tr>
+     <tr>
+      <td><font size = "5"><b>Carga Horaria:</b></font size> </td>
+      <td><input name="carga_horaria" type="text" placeholder="Horas Aulas"></td>
+     </tr>
+      <tr>
+        <td><font size = "5"><b>Area:</b></font size> </td>
+        <td><input name="id_Area" type="text" placeholder="Digite Área"></td>
+     </tr>
+
+     <tr>
+        <td><button class="btn btn-large" type="submit">Cadastrar</button>  </td><td><button class="btn btn-large btn-primary" type="button">Cancelar</button></td>
+     </tr>
+     
+    </form>
+
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
